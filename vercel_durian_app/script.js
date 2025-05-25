@@ -19,9 +19,8 @@ function capture() {
     formData.append('file', blob, 'durian.jpg');
 
     const BACKEND_URL = window.location.hostname === 'localhost'
-  ? 'http://localhost:8000/predict'
-  : 'https://durian-backend-render-1.onrender.com/predict';
-
+      ? 'http://localhost:8000/predict'
+      : 'https://durian-backend-render-1.onrender.com/predict';
 
     fetch(BACKEND_URL, {
       method: 'POST',
@@ -29,7 +28,22 @@ function capture() {
     })
     .then(res => res.json())
     .then(data => {
-      result.innerText = data.result === 'ripe' ? "ทุเรียนสุกแล้ว" : "ยังไม่สุก";
+      switch (data.result) {
+        case 'raw':
+          result.innerText = "ทุเรียนยังดิบอยู่ ❌";
+          break;
+        case 'ready':
+          result.innerText = "ทุเรียนพร้อมตัด ✅";
+          break;
+        case 'ripe':
+          result.innerText = "ทุเรียนสุกแล้ว 🍽️";
+          break;
+        default:
+          result.innerText = "ไม่สามารถระบุได้ ⚠️";
+      }
+    })
+    .catch(() => {
+      result.innerText = "เกิดข้อผิดพลาดในการเชื่อมต่อ ❌";
     });
   }, 'image/jpeg');
 }

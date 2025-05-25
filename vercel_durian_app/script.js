@@ -19,8 +19,9 @@ function capture() {
     formData.append('file', blob, 'durian.jpg');
 
     const BACKEND_URL = window.location.hostname === 'localhost'
-      ? 'http://localhost:8000/predict'
-      : 'https://your-backend-url.fly.dev/predict';
+  ? 'http://localhost:8000/predict'
+  : 'https://durian-backend-render-1.onrender.com/predict';
+
 
     fetch(BACKEND_URL, {
       method: 'POST',
